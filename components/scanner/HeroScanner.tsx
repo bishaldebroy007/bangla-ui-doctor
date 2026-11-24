@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import {
@@ -18,7 +18,7 @@ import {
   Type,
 } from "lucide-react";
 import { FIXTURE_PRESETS } from "@/lib/mock-audit";
-import type { LanguageMode } from "@/types/audit";
+import type { AuditReport, LanguageMode } from "@/types/audit";
 import { ScanPipelineModal } from "./ScanPipelineModal";
 
 const LANGUAGE_OPTIONS: { id: LanguageMode; label: string; sub: string }[] = [
@@ -27,7 +27,9 @@ const LANGUAGE_OPTIONS: { id: LanguageMode; label: string; sub: string }[] = [
   { id: "bilingual", label: "Bilingual", sub: "বাংলা + EN" },
 ];
 
-const DIAGNOSTIC_MODULES = [
+type DiagnosticModuleId = "unicode" | "axe" | "fonts" | "viewports";
+
+const DIAGNOSTIC_MODULES: { id: DiagnosticModuleId; label: string; active: boolean }[] = [
   { id: "unicode", label: "Unicode & NFC", active: true },
   { id: "axe", label: "axe-core A11y", active: true },
   { id: "fonts", label: "Bengali Font Stack", active: true },
@@ -80,21 +82,26 @@ const PILLARS = [
     title: "SSRF-Safe Worker Architecture",
     bengali: "নিরাপদ স্ক্যানার ইঞ্জিন",
     description:
-      "Designed for isolated Playwright execution with strict HTTP/HTTPS validation, DNS checks, and bounded timeouts.",
+      "Isolated Playwright execution with strict HTTP/HTTPS validation, public DNS checks, and bounded timeouts.",
     accent: "from-teal-500/20 to-emerald-500/5 border-teal-500/25 text-teal-400",
   },
 ];
 
 export function HeroScanner() {
   const router = useRouter();
-  const [url, setUrl] = useState(FIXTURE_PRESETS[0].url);
+  const [url, setUrl] = useState("https://www.prothomalo.com");
   const [languageMode, setLanguageMode] = useState<LanguageMode>("bn");
-  const [selectedFixture, setSelectedFixture] = useState<string>("problematic");
-  const [enabledModules, setEnabledModules] = useState<string[]>(
+  const [selectedFixture, setSelectedFixture] = useState<
+    "healthy" | "problematic" | "bilingual" | "custom"
+  >("custom");
+  const [enabledModules, setEnabledModules] = useState<DiagnosticModuleId[]>(
     DIAGNOSTIC_MODULES.map((m) => m.id)
   );
   const [urlError, setUrlError] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
+  const [isScanFinished, setIsScanFinished] = useState(false);
+  const [scanError, setScanError] = useState<string | null>(null);
+  const completedScanIdRef = useRef<string | null>(null);
 
   const handleSelectFixture = (preset: (typeof FIXTURE_PRESETS)[number]) => {
     setUrl(preset.url);
@@ -103,7 +110,7 @@ export function HeroScanner() {
     setUrlError(null);
   };
 
-  const toggleModule = (id: string) => {
+  const toggleModule = (id: DiagnosticModuleId) => {
     setEnabledModules((prev) =>
       prev.includes(id)
         ? prev.length > 1
@@ -113,7 +120,7 @@ export function HeroScanner() {
     );
   };
 
-  const handleStartScan = (e: React.FormEvent) => {
+  const handleStartScan = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = url.trim();
     if (!/^https?:\/\/.+/i.test(trimmed)) {
@@ -121,11 +128,62 @@ export function HeroScanner() {
       return;
     }
     setUrlError(null);
+    setScanError(null);
+    setIsScanFinished(false);
+    completedScanIdRef.current = null;
     setIsScanning(true);
+
+    try {
+      const res = await fetch("/api/scans", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: trimmed,
+          languageMode,
+          enabledModules,
+          fixtureKey: selectedFixture,
+        }),
+      });
+
+      const data = (await res.json().catch(() => null)) as
+        | {
+            scan?: { id: string };
+            report?: AuditReport;
+            error?: string;
+          }
+        | null;
+
+      if (!res.ok || !data?.scan?.id) {
+        throw new Error(data?.error || `Scan request failed with status ${res.status}`);
+      }
+
+      completedScanIdRef.current = data.scan.id;
+      if (data.report && typeof window !== "undefined") {
+        try {
+          sessionStorage.setItem(
+            `bangla-ui-doctor:scan:${data.scan.id}`,
+            JSON.stringify(data.report)
+          );
+        } catch {
+          // Ignore storage quota issues
+        }
+      }
+      setIsScanFinished(true);
+    } catch (err) {
+      setScanError(
+        err instanceof Error ? err.message : "Failed to run Playwright diagnostic scan."
+      );
+    }
   };
 
   const handleScanComplete = useCallback(() => {
     setIsScanning(false);
+    setIsScanFinished(false);
+    const scanId = completedScanIdRef.current;
+    if (scanId) {
+      router.push(`/scan?id=${encodeURIComponent(scanId)}`);
+      return;
+    }
     const params = new URLSearchParams({
       fixture: selectedFixture,
       url: url.trim(),
@@ -133,6 +191,12 @@ export function HeroScanner() {
     });
     router.push(`/scan?${params.toString()}`);
   }, [languageMode, router, selectedFixture, url]);
+
+  const handleDismissError = useCallback(() => {
+    setIsScanning(false);
+    setIsScanFinished(false);
+    setScanError(null);
+  }, []);
 
   return (
     <div className="relative overflow-hidden">
@@ -227,7 +291,8 @@ export function HeroScanner() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="group relative inline-flex h-13 shrink-0 cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 text-sm font-semibold text-slate-950 shadow-[0_0_28px_rgba(16,185,129,0.35)] transition-shadow hover:shadow-[0_0_40px_rgba(16,185,129,0.55)]"
+                disabled={isScanning}
+                className="group relative inline-flex h-13 shrink-0 cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 text-sm font-semibold text-slate-950 shadow-[0_0_28px_rgba(16,185,129,0.35)] transition-shadow hover:shadow-[0_0_40px_rgba(16,185,129,0.55)] disabled:opacity-60"
               >
                 <ScanSearch className="size-4.5 transition-transform duration-300 group-hover:rotate-12" />
                 <span>Run Diagnostic</span>
@@ -306,10 +371,10 @@ export function HeroScanner() {
             <div className="mt-5 border-t border-white/10 pt-4">
               <div className="mb-2.5 flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
-                  Quick-Load Controlled Test Fixtures (UI Demo)
+                  Controlled Test Fixtures &amp; Live URL Presets
                 </span>
-                <span className="font-mono text-[11px] text-slate-500">
-                  Mocked Engine • Backend Next
+                <span className="font-mono text-[11px] text-emerald-400">
+                  Live Playwright + axe-core + Neon Storage
                 </span>
               </div>
               <div className="grid gap-2.5 sm:grid-cols-3">
@@ -413,7 +478,10 @@ export function HeroScanner() {
         isOpen={isScanning}
         targetUrl={url}
         languageMode={languageMode}
+        isScanFinished={isScanFinished}
+        scanError={scanError}
         onComplete={handleScanComplete}
+        onDismissError={handleDismissError}
       />
     </div>
   );

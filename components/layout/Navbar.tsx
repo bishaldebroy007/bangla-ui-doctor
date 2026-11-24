@@ -78,9 +78,9 @@ export function Navbar() {
             <span className="relative z-10">Report Lab</span>
           </Link>
 
-          <div className="ml-2 hidden items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium text-slate-300 md:flex">
-            <Sparkles className="size-3 text-amber-400" />
-            <span>UI Preview Mode</span>
+          <div className="ml-2 hidden items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-300 md:flex">
+            <Sparkles className="size-3 text-emerald-400" />
+            <span>Playwright Engine Active</span>
           </div>
         </nav>
       </div>
