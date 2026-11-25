@@ -30,9 +30,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`dark ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${notoSansBengali.variable} h-full antialiased`}
+      className={`dark ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${notoSansBengali.variable} h-full antialiased overflow-x-hidden`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-emerald-500/30 selection:text-emerald-200">
+      <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-emerald-500/30 selection:text-emerald-200 overflow-x-hidden">
         {children}
       </body>
     </html>

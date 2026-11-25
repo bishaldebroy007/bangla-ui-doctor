@@ -222,7 +222,7 @@ export function ReportWorkspace() {
   }
 
   return (
-    <div className="relative min-h-screen bg-cyber-grid pb-20">
+    <div className="relative min-h-screen overflow-x-hidden bg-cyber-grid pb-20">
       <div className="pointer-events-none absolute top-0 left-1/2 h-80 w-[680px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
@@ -236,10 +236,10 @@ export function ReportWorkspace() {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-[#0a101d]/85 p-5 backdrop-blur-xl lg:flex-row lg:items-center"
+          className="flex flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-[#0a101d]/85 p-4 backdrop-blur-xl sm:p-5 lg:flex-row lg:items-center"
         >
           <div className="space-y-1.5">
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <Link
                 href="/"
                 className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-slate-300 transition-colors hover:bg-white/10"
@@ -247,36 +247,36 @@ export function ReportWorkspace() {
                 <ArrowLeft className="size-3.5" />
                 New Scan
               </Link>
-              <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[11px] text-emerald-300">
+              <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] text-emerald-300 sm:px-2.5 sm:text-[11px]">
                 mode: {report.languageMode}
               </span>
-              <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2.5 py-0.5 font-mono text-[11px] text-cyan-300">
+              <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 font-mono text-[10px] text-cyan-300 sm:px-2.5 sm:text-[11px]">
                 &lt;html lang=&quot;{report.detectedHtmlLang ?? "missing"}&quot;&gt;
               </span>
               {scanId && liveReport && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 font-mono text-[11px] text-violet-300">
+                <span className="inline-flex items-center gap-1 rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[10px] text-violet-300 sm:px-2.5 sm:text-[11px]">
                   <Database className="size-3" />
                   Neon Persisted
                 </span>
               )}
-              <span className="inline-flex items-center gap-1 font-mono text-[11px] text-slate-400">
+              <span className="inline-flex items-center gap-1 font-mono text-[10px] text-slate-400 sm:text-[11px]">
                 <Timer className="size-3 text-slate-500" />
                 {(report.scanDurationMs / 1000).toFixed(2)}s
               </span>
             </div>
 
-            <h1 className="font-bengali text-xl font-bold text-slate-100 sm:text-2xl">
+            <h1 className="break-words font-bengali text-lg font-bold text-slate-100 sm:text-2xl">
               {report.siteTitle}
             </h1>
             <div className="flex items-center gap-1.5 font-mono text-xs text-slate-400">
-              <Globe className="size-3.5 text-emerald-400" />
+              <Globe className="size-3.5 shrink-0 text-emerald-400" />
               <span className="break-all">{report.url}</span>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             {/* Quick Fixture Switcher */}
-            <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-black/40 p-1">
+            <div className="flex max-w-full flex-wrap items-center gap-1 rounded-xl border border-white/10 bg-black/40 p-1">
               {FIXTURE_PRESETS.map((preset) => {
                 const active = !scanId && report.fixtureKey === preset.key;
                 return (
@@ -329,9 +329,9 @@ export function ReportWorkspace() {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-4 flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-[#0b111e]/75 px-4 py-2.5"
+            className="mt-4 flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-[#0b111e]/75 px-3 py-2 sm:px-4 sm:py-2.5"
           >
-            <span className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-400">
+            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-slate-400 sm:text-[11px]">
               <History className="size-3.5 text-emerald-400" />
               Recent DB Scans:
             </span>
@@ -355,7 +355,9 @@ export function ReportWorkspace() {
                         : "border-white/10 bg-white/[0.03] text-slate-400 hover:border-white/20 hover:text-slate-200"
                     }`}
                   >
-                    <span className="max-w-[160px] truncate">{host}</span>
+                    <span className="max-w-[110px] truncate xs:max-w-[140px] sm:max-w-[180px]">
+                      {host}
+                    </span>
                     {s.overallScore !== null && (
                       <span
                         className={`rounded px-1 py-0.2 text-[10px] font-semibold ${
@@ -383,15 +385,15 @@ export function ReportWorkspace() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.08 }}
-            className="flex flex-col justify-between gap-5 rounded-2xl border border-white/10 bg-[#0b111e]/80 p-5 backdrop-blur-xl sm:flex-row sm:items-center lg:col-span-5"
+            className="flex flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-[#0b111e]/80 p-4 backdrop-blur-xl sm:flex-row sm:items-center sm:gap-5 sm:p-5 lg:col-span-5"
           >
-            <div className="flex items-center gap-5">
-              <ScoreRing score={report.overallScore} />
+            <div className="flex flex-col items-center gap-4 text-center xs:flex-row xs:gap-5 xs:text-left">
+              <ScoreRing score={report.overallScore} size={120} />
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-widest text-slate-400">
                   Diagnostic Score
                 </p>
-                <p className="mt-1 text-lg font-semibold text-slate-100">
+                <p className="mt-1 text-base font-semibold text-slate-100 sm:text-lg">
                   {report.overallScore >= 85
                     ? "Healthy Bengali UI"
                     : report.overallScore >= 65
@@ -404,22 +406,22 @@ export function ReportWorkspace() {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 sm:grid-cols-1">
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-rose-500/25 bg-rose-500/10 px-3 py-1.5">
-                <span className="font-mono text-[11px] text-rose-300">Critical</span>
-                <span className="font-mono text-sm font-bold text-rose-200">
+            <div className="grid w-full grid-cols-3 gap-1.5 sm:w-auto sm:grid-cols-1 sm:gap-2">
+              <div className="flex items-center justify-between gap-2 rounded-xl border border-rose-500/25 bg-rose-500/10 px-2.5 py-1.5 sm:gap-3 sm:px-3">
+                <span className="font-mono text-[10px] text-rose-300 sm:text-[11px]">Critical</span>
+                <span className="font-mono text-xs font-bold text-rose-200 sm:text-sm">
                   {counts.critical}
                 </span>
               </div>
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-amber-500/25 bg-amber-500/10 px-3 py-1.5">
-                <span className="font-mono text-[11px] text-amber-300">Warning</span>
-                <span className="font-mono text-sm font-bold text-amber-200">
+              <div className="flex items-center justify-between gap-2 rounded-xl border border-amber-500/25 bg-amber-500/10 px-2.5 py-1.5 sm:gap-3 sm:px-3">
+                <span className="font-mono text-[10px] text-amber-300 sm:text-[11px]">Warning</span>
+                <span className="font-mono text-xs font-bold text-amber-200 sm:text-sm">
                   {counts.warning}
                 </span>
               </div>
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-cyan-500/25 bg-cyan-500/10 px-3 py-1.5">
-                <span className="font-mono text-[11px] text-cyan-300">Suggest</span>
-                <span className="font-mono text-sm font-bold text-cyan-200">
+              <div className="flex items-center justify-between gap-2 rounded-xl border border-cyan-500/25 bg-cyan-500/10 px-2.5 py-1.5 sm:gap-3 sm:px-3">
+                <span className="font-mono text-[10px] text-cyan-300 sm:text-[11px]">Suggest</span>
+                <span className="font-mono text-xs font-bold text-cyan-200 sm:text-sm">
                   {counts.suggestion}
                 </span>
               </div>
@@ -431,13 +433,13 @@ export function ReportWorkspace() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.14 }}
-            className="rounded-2xl border border-white/10 bg-[#0b111e]/80 p-5 backdrop-blur-xl lg:col-span-7"
+            className="rounded-2xl border border-white/10 bg-[#0b111e]/80 p-4 backdrop-blur-xl sm:p-5 lg:col-span-7"
           >
-            <div className="mb-3 flex items-center justify-between">
+            <div className="mb-3 flex flex-col justify-between gap-1 xs:flex-row xs:items-center">
               <h2 className="font-mono text-xs uppercase tracking-widest text-slate-400">
                 Category Health Breakdown
               </h2>
-              <span className="font-mono text-[11px] text-emerald-400">
+              <span className="truncate font-mono text-[10px] text-emerald-400 sm:text-[11px]">
                 Font Stack: {report.fontStackDetected.slice(0, 2).join(", ")}
               </span>
             </div>
@@ -494,34 +496,33 @@ export function ReportWorkspace() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-          className="mt-6 rounded-2xl border border-white/10 bg-[#0b111e]/80 p-5 backdrop-blur-xl"
+          className="mt-6 rounded-2xl border border-white/10 bg-[#0b111e]/80 p-4 backdrop-blur-xl sm:p-5"
         >
-          <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 lg:flex-row lg:items-center">
+          <div className="flex flex-col justify-between gap-3 border-b border-white/10 pb-4 md:flex-row md:items-center">
             <div>
-              <h2 className="text-lg font-semibold text-slate-100">
+              <h2 className="text-base font-semibold text-slate-100 sm:text-lg">
                 Audit Findings &amp; Evidence
               </h2>
               <p className="text-xs text-slate-400">
-                Select any finding to inspect DOM evidence, explanation, and code
-                patch.
+                Select any finding to inspect DOM evidence, explanation, and code patch.
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2.5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2.5">
               {/* Search */}
-              <div className="relative">
+              <div className="relative w-full sm:w-56 md:w-64">
                 <Search className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Filter rule, selector..."
-                  className="h-9 rounded-xl border border-white/10 bg-black/40 pr-3 pl-8 font-mono text-xs text-slate-200 placeholder:text-slate-500 focus:border-emerald-500/50 focus:outline-none"
+                  className="h-9 w-full rounded-xl border border-white/10 bg-black/40 pr-3 pl-8 font-mono text-xs text-slate-200 placeholder:text-slate-500 focus:border-emerald-500/50 focus:outline-none"
                 />
               </div>
 
               {/* Severity Filter */}
-              <div className="inline-flex rounded-xl border border-white/10 bg-black/40 p-1">
+              <div className="inline-flex max-w-full overflow-x-auto rounded-xl border border-white/10 bg-black/40 p-1">
                 {SEVERITY_FILTERS.map((sev) => (
                   <button
                     key={sev}
@@ -577,10 +578,10 @@ export function ReportWorkspace() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25, delay: idx * 0.03 }}
                   whileHover={{ x: 4 }}
-                  className="group flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/10 bg-black/35 p-4 text-left transition-colors hover:border-emerald-500/35 hover:bg-emerald-500/[0.04]"
+                  className="group flex w-full cursor-pointer items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/35 p-3.5 text-left transition-colors hover:border-emerald-500/35 hover:bg-emerald-500/[0.04] sm:gap-4 sm:p-4"
                 >
                   <div className="min-w-0 flex-1 space-y-1.5">
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                       <span
                         className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold uppercase ${
                           finding.severity === "critical"

@@ -1,10 +1,11 @@
 import { Suspense } from "react";
+import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ReportWorkspace } from "@/components/report/ReportWorkspace";
 
 export default function ScanReportPage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-hidden">
       <Navbar />
       <main className="flex-1">
         <Suspense
@@ -17,6 +18,7 @@ export default function ScanReportPage() {
           <ReportWorkspace />
         </Suspense>
       </main>
+      <Footer />
     </div>
   );
 }
