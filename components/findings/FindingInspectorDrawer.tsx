@@ -51,14 +51,14 @@ export function FindingInspectorDrawer({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 320, damping: 32 }}
-            className="fixed inset-y-0 right-0 z-50 flex w-full max-w-xl flex-col border-l border-white/15 bg-[#070c16]/95 shadow-2xl backdrop-blur-2xl"
+            className="fixed inset-y-0 right-0 z-50 flex w-full flex-col border-l border-white/15 bg-[#070c16]/95 shadow-2xl backdrop-blur-2xl sm:max-w-xl"
           >
             {/* Header */}
-            <div className="flex items-start justify-between gap-4 border-b border-white/10 p-5">
-              <div className="space-y-1.5">
-                <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-start justify-between gap-3 border-b border-white/10 p-4 sm:gap-4 sm:p-5">
+              <div className="min-w-0 space-y-1.5">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                   <span
-                    className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase ${
+                    className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold uppercase sm:px-2.5 sm:text-[11px] ${
                       finding.severity === "critical"
                         ? "bg-rose-500/20 text-rose-300"
                         : finding.severity === "warning"
@@ -75,14 +75,14 @@ export function FindingInspectorDrawer({
                     )}
                     {finding.severity}
                   </span>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 font-mono text-[11px] text-slate-300">
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[10px] text-slate-300 sm:px-2.5 sm:text-[11px]">
                     confidence: {finding.confidence}
                   </span>
-                  <span className="rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[11px] text-emerald-300">
+                  <span className="rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] text-emerald-300 sm:px-2.5 sm:text-[11px]">
                     {finding.ruleId}
                   </span>
                 </div>
-                <h2 className="text-lg font-semibold text-slate-100">
+                <h2 className="break-words text-base font-semibold text-slate-100 sm:text-lg">
                   {finding.title}
                 </h2>
               </div>
@@ -91,16 +91,16 @@ export function FindingInspectorDrawer({
                 type="button"
                 onClick={onClose}
                 aria-label="Close inspector"
-                className="cursor-pointer rounded-lg border border-white/10 bg-white/5 p-2 text-slate-400 transition-colors hover:bg-white/10 hover:text-slate-100"
+                className="shrink-0 cursor-pointer rounded-lg border border-white/10 bg-white/5 p-2 text-slate-400 transition-colors hover:bg-white/10 hover:text-slate-100"
               >
                 <X className="size-4" />
               </button>
             </div>
 
             {/* Body */}
-            <div className="flex-1 space-y-5 overflow-y-auto p-5">
+            <div className="flex-1 space-y-5 overflow-y-auto p-4 sm:p-5">
               {finding.requiresHumanReview && (
-                <div className="flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3.5 text-xs text-amber-200">
+                <div className="flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 sm:p-3.5 text-xs text-amber-200">
                   <ShieldQuestion className="mt-0.5 size-4 shrink-0 text-amber-400" />
                   <div>
                     <strong className="font-semibold">
@@ -131,7 +131,7 @@ export function FindingInspectorDrawer({
                   <h3 className="font-mono text-[11px] uppercase tracking-widest text-slate-400">
                     Affected DOM Selector
                   </h3>
-                  <div className="mt-1.5 rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 font-mono text-xs text-cyan-300">
+                  <div className="mt-1.5 break-all select-all rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 font-mono text-xs text-cyan-300">
                     {finding.selector}
                   </div>
                 </div>
@@ -142,7 +142,7 @@ export function FindingInspectorDrawer({
                   <h3 className="font-mono text-[11px] uppercase tracking-widest text-slate-400">
                     Captured Evidence
                   </h3>
-                  <pre className="mt-1.5 overflow-x-auto rounded-xl border border-rose-500/20 bg-rose-950/20 p-3.5 font-mono text-xs leading-relaxed text-rose-200">
+                  <pre className="mt-1.5 max-w-full overflow-x-auto rounded-xl border border-rose-500/20 bg-rose-950/20 p-3 sm:p-3.5 font-mono text-[11px] sm:text-xs leading-relaxed text-rose-200">
                     <code>{finding.evidence}</code>
                   </pre>
                 </div>
@@ -182,7 +182,7 @@ export function FindingInspectorDrawer({
                       )}
                     </button>
                   </div>
-                  <pre className="mt-1.5 overflow-x-auto rounded-xl border border-emerald-500/25 bg-emerald-950/20 p-3.5 font-mono text-xs leading-relaxed text-emerald-200">
+                  <pre className="mt-1.5 max-w-full overflow-x-auto rounded-xl border border-emerald-500/25 bg-emerald-950/20 p-3 sm:p-3.5 font-mono text-[11px] sm:text-xs leading-relaxed text-emerald-200">
                     <code>{finding.codeFix}</code>
                   </pre>
                 </div>

@@ -118,14 +118,14 @@ function ScanPipelineContent({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-md"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 p-3 backdrop-blur-md sm:p-4"
     >
       <motion.div
         initial={{ scale: 0.94, opacity: 0, y: 16 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.96, opacity: 0, y: 12 }}
         transition={{ type: "spring", stiffness: 320, damping: 28 }}
-        className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-emerald-500/30 bg-[#080d18]/95 p-6 shadow-[0_0_60px_rgba(16,185,129,0.2)]"
+        className="relative max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-emerald-500/30 bg-[#080d18]/95 p-4 shadow-[0_0_60px_rgba(16,185,129,0.2)] sm:p-6"
       >
         {/* Animated scanning laser line */}
         {!scanError && (
@@ -134,10 +134,10 @@ function ScanPipelineContent({
           </div>
         )}
 
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="relative flex size-11 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/10">
-              <Cpu className="size-5 text-emerald-400" />
+        <div className="flex items-start justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="relative flex size-10 shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 sm:size-11">
+              <Cpu className="size-4.5 text-emerald-400 sm:size-5" />
               {!scanError && (
                 <motion.span
                   animate={{ rotate: 360 }}
@@ -146,17 +146,17 @@ function ScanPipelineContent({
                 />
               )}
             </div>
-            <div>
-              <p className="font-mono text-[11px] uppercase tracking-widest text-emerald-400">
+            <div className="min-w-0">
+              <p className="truncate font-mono text-[10px] uppercase tracking-widest text-emerald-400 sm:text-[11px]">
                 {scanError ? "Diagnostic Aborted" : "Live Playwright Worker Active"}
               </p>
-              <h3 className="text-lg font-semibold text-slate-100">
+              <h3 className="truncate text-base font-semibold text-slate-100 sm:text-lg">
                 {scanError ? "Unable to Audit Target URL" : "Scanning Target Interface"}
               </h3>
             </div>
           </div>
 
-          <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2.5 py-1 font-mono text-xs text-cyan-300">
+          <span className="shrink-0 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 font-mono text-[11px] text-cyan-300 sm:px-2.5 sm:py-1 sm:text-xs">
             mode: {languageMode}
           </span>
         </div>

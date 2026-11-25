@@ -221,7 +221,7 @@ export function HeroScanner() {
         বাংলা
       </motion.div>
 
-      <section className="relative mx-auto max-w-7xl px-4 pt-14 pb-20 sm:px-6 lg:px-8 lg:pt-20">
+      <section className="relative mx-auto max-w-7xl px-3.5 pt-10 pb-16 sm:px-6 sm:pt-14 sm:pb-20 lg:px-8 lg:pt-20">
         {/* Hero Header */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -229,12 +229,12 @@ export function HeroScanner() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto max-w-3xl text-center"
         >
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-medium text-emerald-300 shadow-[0_0_24px_rgba(16,185,129,0.18)]">
-            <Sparkles className="size-3.5 text-emerald-400" />
-            <span>BENGALI WEB DIAGNOSTICS &amp; LOCALIZATION LAB</span>
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-300 shadow-[0_0_24px_rgba(16,185,129,0.18)] sm:mb-5 sm:px-3.5 sm:py-1.5 sm:text-xs">
+            <Sparkles className="size-3 text-emerald-400 sm:size-3.5" />
+            <span className="truncate">BENGALI WEB DIAGNOSTICS &amp; LOCALIZATION LAB</span>
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl">
             Precision UI Doctor for{" "}
             <span className="bg-gradient-to-r from-emerald-300 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">
               Bangla &amp; Bilingual
@@ -242,7 +242,7 @@ export function HeroScanner() {
             Websites
           </h1>
 
-          <p className="mt-5 text-base leading-relaxed text-slate-400 sm:text-lg">
+          <p className="mt-4 text-sm leading-relaxed text-slate-400 sm:mt-5 sm:text-lg">
             Scan any public URL for broken Bengali Unicode, missing{" "}
             <code className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-xs text-emerald-300">
               lang=&quot;bn&quot;
@@ -260,19 +260,19 @@ export function HeroScanner() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-10 max-w-4xl"
+          className="mx-auto mt-8 max-w-4xl sm:mt-10"
         >
           <form
             onSubmit={handleStartScan}
-            className="relative overflow-hidden rounded-3xl border border-white/15 bg-[#0a101d]/85 p-5 shadow-[0_24px_90px_rgba(0,0,0,0.65)] backdrop-blur-2xl sm:p-7"
+            className="relative overflow-hidden rounded-2xl border border-white/15 bg-[#0a101d]/85 p-4 shadow-[0_24px_90px_rgba(0,0,0,0.65)] backdrop-blur-2xl sm:rounded-3xl sm:p-7"
           >
             {/* Subtle top luminous border */}
-            <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent" />
+            <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent sm:inset-x-10" />
 
             {/* URL Input Row */}
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-2.5 sm:flex-row sm:gap-3">
               <div className="relative flex-1">
-                <Globe className="pointer-events-none absolute top-1/2 left-4 size-4.5 -translate-y-1/2 text-emerald-400" />
+                <Globe className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-emerald-400 sm:left-4 sm:size-4.5" />
                 <input
                   type="text"
                   value={url}
@@ -283,7 +283,7 @@ export function HeroScanner() {
                   }}
                   placeholder="https://example-bangla-site.com"
                   aria-label="Website URL to audit"
-                  className="h-13 w-full rounded-2xl border border-white/15 bg-black/45 pr-4 pl-11 font-mono text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-400/70 focus:ring-2 focus:ring-emerald-500/25 focus:outline-none"
+                  className="h-12 w-full rounded-xl border border-white/15 bg-black/45 pr-3 pl-10 font-mono text-xs text-slate-100 placeholder:text-slate-500 focus:border-emerald-400/70 focus:ring-2 focus:ring-emerald-500/25 focus:outline-none sm:h-13 sm:rounded-2xl sm:pr-4 sm:pl-11 sm:text-sm"
                 />
               </div>
 
@@ -292,11 +292,11 @@ export function HeroScanner() {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isScanning}
-                className="group relative inline-flex h-13 shrink-0 cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 text-sm font-semibold text-slate-950 shadow-[0_0_28px_rgba(16,185,129,0.35)] transition-shadow hover:shadow-[0_0_40px_rgba(16,185,129,0.55)] disabled:opacity-60"
+                className="group relative inline-flex h-12 w-full shrink-0 cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-5 text-xs font-semibold text-slate-950 shadow-[0_0_28px_rgba(16,185,129,0.35)] transition-shadow hover:shadow-[0_0_40px_rgba(16,185,129,0.55)] disabled:opacity-60 sm:h-13 sm:w-auto sm:rounded-2xl sm:px-6 sm:text-sm"
               >
-                <ScanSearch className="size-4.5 transition-transform duration-300 group-hover:rotate-12" />
+                <ScanSearch className="size-4 transition-transform duration-300 group-hover:rotate-12 sm:size-4.5" />
                 <span>Run Diagnostic</span>
-                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 sm:size-4" />
               </motion.button>
             </div>
 
@@ -305,13 +305,13 @@ export function HeroScanner() {
             )}
 
             {/* Configuration Controls Row */}
-            <div className="mt-5 flex flex-col justify-between gap-4 border-t border-white/10 pt-5 md:flex-row md:items-center">
+            <div className="mt-4 flex flex-col justify-between gap-3 border-t border-white/10 pt-4 sm:mt-5 sm:gap-4 sm:pt-5 lg:flex-row lg:items-center">
               {/* Language Mode Selector */}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="mr-1 font-mono text-[11px] uppercase tracking-wider text-slate-400">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-slate-400 sm:text-[11px]">
                   Target Locale:
                 </span>
-                <div className="inline-flex rounded-xl border border-white/10 bg-black/40 p-1">
+                <div className="inline-flex max-w-full flex-wrap rounded-xl border border-white/10 bg-black/40 p-1">
                   {LANGUAGE_OPTIONS.map((opt) => {
                     const active = languageMode === opt.id;
                     return (
@@ -319,7 +319,7 @@ export function HeroScanner() {
                         key={opt.id}
                         type="button"
                         onClick={() => setLanguageMode(opt.id)}
-                        className={`relative cursor-pointer rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+                        className={`relative cursor-pointer rounded-lg px-2.5 py-1 text-xs font-medium transition-colors sm:px-3 sm:py-1.5 ${
                           active ? "text-emerald-200" : "text-slate-400 hover:text-slate-200"
                         }`}
                       >
@@ -349,14 +349,14 @@ export function HeroScanner() {
                       key={mod.id}
                       type="button"
                       onClick={() => toggleModule(mod.id)}
-                      className={`inline-flex cursor-pointer items-center gap-1.5 rounded-lg border px-2.5 py-1 font-mono text-[11px] transition-all ${
+                      className={`inline-flex cursor-pointer items-center gap-1.5 rounded-lg border px-2 py-1 font-mono text-[10px] transition-all sm:px-2.5 sm:text-[11px] ${
                         enabled
                           ? "border-cyan-500/35 bg-cyan-500/10 text-cyan-200"
                           : "border-white/10 bg-white/[0.02] text-slate-500 hover:text-slate-300"
                       }`}
                     >
                       <Check
-                        className={`size-3 ${
+                        className={`size-2.5 sm:size-3 ${
                           enabled ? "text-cyan-400" : "opacity-30"
                         }`}
                       />
@@ -368,16 +368,16 @@ export function HeroScanner() {
             </div>
 
             {/* Controlled Fixture Presets */}
-            <div className="mt-5 border-t border-white/10 pt-4">
-              <div className="mb-2.5 flex items-center justify-between">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
+            <div className="mt-4 border-t border-white/10 pt-4 sm:mt-5">
+              <div className="mb-2.5 flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-slate-400 sm:text-[11px]">
                   Controlled Test Fixtures &amp; Live URL Presets
                 </span>
-                <span className="font-mono text-[11px] text-emerald-400">
+                <span className="font-mono text-[10px] text-emerald-400 sm:text-[11px]">
                   Live Playwright + axe-core + Neon Storage
                 </span>
               </div>
-              <div className="grid gap-2.5 sm:grid-cols-3">
+              <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
                 {FIXTURE_PRESETS.map((preset) => {
                   const isSelected = selectedFixture === preset.key;
                   return (

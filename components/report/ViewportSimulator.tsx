@@ -32,10 +32,10 @@ export function ViewportSimulator({
   const meta = PROFILE_META[activeViewport.profile];
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-[#0b111e]/80 p-5 backdrop-blur-xl">
-      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+    <div className="rounded-2xl border border-white/10 bg-[#0b111e]/80 p-4 backdrop-blur-xl sm:p-5">
+      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
         <div>
-          <p className="font-mono text-[11px] uppercase tracking-widest text-cyan-400">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-cyan-400 sm:text-[11px]">
             Responsive Visual Telemetry
           </p>
           <h3 className="mt-0.5 text-base font-semibold text-slate-100">
@@ -44,7 +44,7 @@ export function ViewportSimulator({
         </div>
 
         {/* Viewport Switcher */}
-        <div className="inline-flex rounded-xl border border-white/10 bg-black/40 p-1">
+        <div className="flex max-w-full flex-wrap rounded-xl border border-white/10 bg-black/40 p-1 sm:inline-flex">
           {viewports.map((vp) => {
             const Icon = PROFILE_META[vp.profile].icon;
             const isActive = vp.profile === activeProfile;
@@ -53,7 +53,7 @@ export function ViewportSimulator({
                 key={vp.profile}
                 type="button"
                 onClick={() => setActiveProfile(vp.profile)}
-                className={`relative flex cursor-pointer items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-xs transition-colors ${
+                className={`relative flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1 font-mono text-xs transition-colors sm:px-3 sm:py-1.5 ${
                   isActive ? "text-cyan-200" : "text-slate-400 hover:text-slate-200"
                 }`}
               >
@@ -64,9 +64,12 @@ export function ViewportSimulator({
                     className="absolute inset-0 rounded-lg border border-cyan-500/40 bg-cyan-500/15"
                   />
                 )}
-                <Icon className="relative z-10 size-3.5" />
+                <Icon className="relative z-10 size-3 sm:size-3.5" />
                 <span className="relative z-10">
-                  {vp.label} ({vp.widthPx}px)
+                  <span>{vp.label}</span>{" "}
+                  <span className="hidden xs:inline text-[11px] opacity-75">
+                    ({vp.widthPx}px)
+                  </span>
                 </span>
               </button>
             );
@@ -75,7 +78,7 @@ export function ViewportSimulator({
       </div>
 
       {/* Status Telemetry Bar */}
-      <div className="mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-white/10 bg-black/35 px-3.5 py-2.5 font-mono text-xs">
+      <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-black/35 px-3 py-2 font-mono text-[11px] sm:gap-3 sm:px-3.5 sm:py-2.5 sm:text-xs">
         <span className="flex items-center gap-1.5">
           {activeViewport.status === "pass" ? (
             <CheckCircle2 className="size-3.5 text-emerald-400" />
@@ -101,7 +104,7 @@ export function ViewportSimulator({
             </strong>
           </span>
         </span>
-        <span className="text-slate-600">|</span>
+        <span className="hidden sm:inline text-slate-600">|</span>
         <span className="text-slate-300">
           Clipped Elements:{" "}
           <strong
@@ -114,14 +117,14 @@ export function ViewportSimulator({
             {activeViewport.clippedElements}
           </strong>
         </span>
-        <span className="text-slate-600">|</span>
+        <span className="hidden sm:inline text-slate-600">|</span>
         <span className="text-slate-400">
           Click highlighted overlays below to inspect evidence
         </span>
       </div>
 
       {/* Simulated Browser Frame */}
-      <div className="mt-5 flex justify-center rounded-xl border border-white/5 bg-[#05080f] p-4 sm:p-6">
+      <div className="mt-4 flex justify-center overflow-x-auto rounded-xl border border-white/5 bg-[#05080f] p-3 sm:mt-5 sm:p-6">
         <motion.div
           layout
           transition={{ type: "spring", stiffness: 280, damping: 28 }}
@@ -207,7 +210,7 @@ export function ViewportSimulator({
                   }`}
                 >
                   <span
-                    className={`absolute -top-5 left-0 whitespace-nowrap rounded px-1.5 py-0.5 font-mono text-[9px] font-semibold shadow ${
+                    className={`absolute -top-5 left-0 max-w-[120px] truncate rounded px-1.5 py-0.5 font-mono text-[9px] font-semibold shadow sm:max-w-none ${
                       isCritical
                         ? "bg-rose-500 text-white"
                         : "bg-amber-400 text-slate-950"

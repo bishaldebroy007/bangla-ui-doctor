@@ -5,9 +5,10 @@ import { motion } from "motion/react";
 interface ScoreRingProps {
   score: number;
   size?: number;
+  className?: string;
 }
 
-export function ScoreRing({ score, size = 132 }: ScoreRingProps) {
+export function ScoreRing({ score, size = 132, className = "" }: ScoreRingProps) {
   const strokeWidth = 10;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -26,10 +27,15 @@ export function ScoreRing({ score, size = 132 }: ScoreRingProps) {
 
   return (
     <div
-      className="relative inline-flex items-center justify-center"
+      className={`relative inline-flex shrink-0 items-center justify-center ${className}`}
       style={{ width: size, height: size }}
     >
-      <svg width={size} height={size} className="-rotate-90">
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        className="-rotate-90"
+      >
         <circle
           cx={size / 2}
           cy={size / 2}
